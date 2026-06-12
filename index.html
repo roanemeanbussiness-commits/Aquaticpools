@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Great+Vibes&family=Sacramento&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=9" />
+<link rel="stylesheet" href="css/style.css?v=14" />
 </head>
 <body>
 
@@ -29,10 +29,7 @@
   <div class="preloader-caustics"></div>
   <div class="preloader-inner">
     <div class="brand-mark" id="brandMark">
-      <svg class="brand-swoosh" viewBox="0 0 520 120" aria-hidden="true">
-        <path id="swooshPath" d="M12,74 C70,30 150,20 250,40 C360,62 450,52 508,30" fill="none" stroke="var(--brand)" stroke-width="7" stroke-linecap="round"/>
-      </svg>
-      <span class="brand-script">Aquatic Pools</span>
+      <img class="brand-logo" src="assets/logo/logo.png" alt="Aquatic Pools Luxury Living" />
       <span class="brand-sub">ARIZONA &middot; CUSTOM</span>
     </div>
     <div class="preloader-bar"><i id="loadBar"></i></div>
@@ -42,7 +39,7 @@
 
 <!-- ============ NAV ============ -->
 <header class="nav" id="nav">
-  <a href="#top" class="nav-brand" aria-label="Aquatic Pools Arizona home"><span class="nav-script">Aquatic Pools</span></a>
+  <a href="#top" class="nav-brand" aria-label="Aquatic Pools Arizona home"><img class="nav-logo" src="assets/logo/logo.png" alt="Aquatic Pools Luxury Living" /></a>
   <nav class="nav-links" id="navLinks">
     <a href="#about">About</a>
     <a href="#services">Services</a>
@@ -60,16 +57,8 @@
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
     <div class="hero-media">
-      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline poster="assets/images/hero-poster.jpg">
-        <source src="assets/videos/hero.mp4" type="video/mp4" />
-      </video>
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="none" poster="assets/images/intro-poster.jpg" data-src="assets/videos/intro.mp4"></video>
       <div class="hero-scrim"></div>
-    </div>
-    <div class="hero-inner">
-      <h1 class="hero-title">
-        <span class="reveal d1">We build</span>
-        <span class="reveal d2">dream backyards</span>
-      </h1>
     </div>
     <a href="#about" class="hero-scroll" aria-label="Scroll down"><span></span>Scroll</a>
   </section>
@@ -116,7 +105,7 @@
         <div class="svc-body"><h3>Remodel</h3><p>We bring a tired pool back to life. New surfaces, modern equipment, fresh features.</p><ul><li>Resurfacing and re tile</li><li>Equipment upgrades</li><li>Deck and coping renewal</li></ul></div>
       </article>
       <article class="svc-card reveal d3">
-        <div class="svc-img" data-img="reel-05-poster"><span class="svc-num">04</span></div>
+        <div class="svc-img" data-img="service"><span class="svc-num">04</span></div>
         <div class="svc-body"><h3>Service</h3><p>We keep your pool clean and running. Regular maintenance, repairs, and seasonal tune ups.</p><ul><li>Weekly maintenance</li><li>Equipment repair</li><li>Green to clean rescues</li></ul></div>
       </article>
     </div>
@@ -153,14 +142,20 @@
 
       <article class="proc-card reveal">
         <div class="proc-scene"><svg class="scene s-call" viewBox="0 0 240 150" aria-hidden="true">
-          <circle class="ripple r1" cx="120" cy="78" r="20"/>
-          <circle class="ripple r2" cx="120" cy="78" r="20"/>
-          <circle class="ripple r3" cx="120" cy="78" r="20"/>
+          <circle class="ripple r1" cx="112" cy="78" r="17"/>
+          <circle class="ripple r2" cx="112" cy="78" r="17"/>
+          <circle class="ripple r3" cx="112" cy="78" r="17"/>
+          <circle class="ripple r4" cx="112" cy="78" r="17"/>
           <g class="phone">
-            <rect class="fill-ink" x="103" y="44" width="34" height="62" rx="10"/>
-            <rect class="fill-screen" x="108" y="51" width="24" height="44" rx="4"/>
-            <g transform="translate(108 60) scale(0.62)" class="fill-gold"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></g>
-            <circle class="blip" cx="120" cy="99" r="2.6"/>
+            <rect class="fill-ink" x="95" y="44" width="34" height="62" rx="10"/>
+            <rect class="fill-screen" x="100" y="51" width="24" height="44" rx="4"/>
+            <g transform="translate(100 60) scale(0.62)" class="fill-gold"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></g>
+            <circle class="blip" cx="112" cy="99" r="2.6"/>
+          </g>
+          <g class="bars">
+            <rect class="bar b1 fill-teal" x="150" y="80" width="8" height="12" rx="2"/>
+            <rect class="bar b2 fill-teal" x="162" y="74" width="8" height="18" rx="2"/>
+            <rect class="bar b3 fill-gold" x="174" y="66" width="8" height="26" rx="2"/>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 01</span><h3>Consult</h3><p>We visit your home, learn how you want to use the yard, and talk budget straight.</p></div>
@@ -169,17 +164,21 @@
       <article class="proc-card reveal d1">
         <div class="proc-scene"><svg class="scene s-talk" viewBox="0 0 240 150" aria-hidden="true">
           <g class="card">
-            <rect class="fill-paper stroke-ink" x="72" y="26" width="96" height="100" rx="11"/>
-            <rect class="fill-teal" x="86" y="40" width="44" height="7" rx="3.5"/>
-            <rect class="nofill stroke-ink" x="86" y="58" width="15" height="15" rx="4"/>
-            <path class="chk c1" d="M89 66l3.5 3.5 6-7" pathLength="100"/>
-            <rect class="fill-line" x="108" y="62" width="48" height="6" rx="3"/>
-            <rect class="nofill stroke-ink" x="86" y="80" width="15" height="15" rx="4"/>
-            <path class="chk c2" d="M89 88l3.5 3.5 6-7" pathLength="100"/>
-            <rect class="fill-line" x="108" y="84" width="48" height="6" rx="3"/>
-            <rect class="nofill stroke-ink" x="86" y="102" width="15" height="15" rx="4"/>
-            <path class="chk c3" d="M89 110l3.5 3.5 6-7" pathLength="100"/>
-            <rect class="fill-line" x="108" y="106" width="34" height="6" rx="3"/>
+            <rect class="fill-paper stroke-ink" x="66" y="20" width="108" height="112" rx="11"/>
+            <circle class="fill-teal" cx="82" cy="36" r="7"/>
+            <rect class="fill-line" x="94" y="33" width="42" height="6" rx="3"/>
+            <rect class="nofill stroke-ink" x="80" y="52" width="14" height="14" rx="4"/>
+            <path class="chk c1" d="M83 59l3 3 5.5-6.5" pathLength="100"/>
+            <rect class="fill-line" x="102" y="56" width="54" height="5" rx="2.5"/>
+            <rect class="nofill stroke-ink" x="80" y="72" width="14" height="14" rx="4"/>
+            <path class="chk c2" d="M83 79l3 3 5.5-6.5" pathLength="100"/>
+            <rect class="fill-line" x="102" y="76" width="54" height="5" rx="2.5"/>
+            <rect class="nofill stroke-ink" x="80" y="92" width="14" height="14" rx="4"/>
+            <path class="chk c3" d="M83 99l3 3 5.5-6.5" pathLength="100"/>
+            <rect class="fill-line" x="102" y="96" width="40" height="5" rx="2.5"/>
+            <rect class="fill-line" x="80" y="118" width="76" height="6" rx="3" opacity=".4"/>
+            <rect class="progbar fill-teal" x="80" y="118" width="76" height="6" rx="3"/>
+            <g class="spark"><path class="fill-gold" d="M150 28 l2 5.5 5.5 2 -5.5 2 -2 5.5 -2 -5.5 -5.5 -2 5.5 -2 z"/></g>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 02</span><h3>We get to know you</h3><p>Your lifestyle and wish list shape the design. The result fits you, not a template.</p></div>
@@ -187,16 +186,28 @@
 
       <article class="proc-card reveal d2">
         <div class="proc-scene"><svg class="scene s-measure" viewBox="0 0 240 150" aria-hidden="true">
-          <rect class="nofill stroke-teal" x="54" y="94" width="132" height="30" rx="10"/>
-          <line class="dimline" x1="54" y1="134" x2="186" y2="134" pathLength="100"/>
-          <line class="stroke-ink" x1="54" y1="130" x2="54" y2="138"/>
-          <line class="stroke-ink" x1="186" y1="130" x2="186" y2="138"/>
+          <rect class="nofill stroke-teal" x="48" y="90" width="118" height="32" rx="10"/>
+          <line class="dimline dw" x1="48" y1="132" x2="166" y2="132" pathLength="100"/>
+          <line class="stroke-ink" x1="48" y1="128" x2="48" y2="136"/>
+          <line class="stroke-ink" x1="166" y1="128" x2="166" y2="136"/>
+          <line class="dimline dh" x1="178" y1="90" x2="178" y2="122" pathLength="100"/>
+          <line class="stroke-ink" x1="174" y1="90" x2="182" y2="90"/>
+          <line class="stroke-ink" x1="174" y1="122" x2="182" y2="122"/>
+          <path class="stroke-ink fbrk" d="M90 42 h-7 v7"/>
+          <path class="stroke-ink fbrk" d="M142 42 h7 v7"/>
+          <path class="stroke-ink fbrk" d="M90 76 h-7 v-7"/>
+          <path class="stroke-ink fbrk" d="M142 76 h7 v-7"/>
           <g class="camera">
-            <rect class="fill-ink" x="92" y="40" width="56" height="40" rx="9"/>
-            <rect class="fill-ink" x="104" y="34" width="18" height="8" rx="3"/>
-            <circle class="fill-screen" cx="120" cy="60" r="13"/>
-            <circle class="aperture nofill stroke-gold" cx="120" cy="60" r="8"/>
-            <circle class="blip" cx="139" cy="47" r="2.6"/>
+            <rect class="fill-ink" x="88" y="40" width="56" height="38" rx="9"/>
+            <rect class="fill-ink" x="100" y="34" width="18" height="8" rx="3"/>
+            <circle class="fill-screen lensf" cx="116" cy="59" r="13"/>
+            <g class="aperture">
+              <circle class="nofill stroke-gold" cx="116" cy="59" r="8"/>
+              <line class="stroke-gold" x1="116" y1="59" x2="116" y2="51"/>
+              <line class="stroke-gold" x1="116" y1="59" x2="123" y2="63"/>
+              <line class="stroke-gold" x1="116" y1="59" x2="109" y2="63"/>
+            </g>
+            <circle class="blip" cx="137" cy="46" r="2.6"/>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 03</span><h3>Photos and measurements</h3><p>A surveyor measures and photographs your yard so we model it right.</p></div>
@@ -204,17 +215,23 @@
 
       <article class="proc-card reveal">
         <div class="proc-scene"><svg class="scene s-drone" viewBox="0 0 240 150" aria-hidden="true">
-          <path class="beam" d="M110 52 L86 118 L154 118 L130 52 Z"/>
+          <path class="beam" d="M108 50 L84 120 L156 120 L132 50 Z"/>
           <g class="model">
-            <polygon class="nofill stroke-gold" points="120,90 158,106 120,122 82,106"/>
-            <path class="nofill stroke-teal" d="M82 106 v8 l38 16 38 -16 v-8"/>
+            <polygon class="nofill stroke-gold" points="120,84 162,104 120,124 78,104"/>
+            <path class="nofill stroke-teal" d="M78 104 v9 l42 20 42 -20 v-9"/>
+            <line class="stroke-teal thin" x1="99" y1="94" x2="141" y2="114"/>
+            <line class="stroke-teal thin" x1="141" y1="94" x2="99" y2="114"/>
+            <line class="scan stroke-gold" x1="80" y1="104" x2="160" y2="104"/>
           </g>
           <g class="drone">
-            <line class="stroke-ink" x1="84" y1="40" x2="156" y2="40" style="stroke-width:3"/>
-            <rect class="fill-ink" x="102" y="34" width="36" height="12" rx="6"/>
-            <g class="prop"><line class="stroke-teal" x1="74" y1="40" x2="94" y2="40" style="stroke-width:3"/></g>
-            <g class="prop"><line class="stroke-teal" x1="146" y1="40" x2="166" y2="40" style="stroke-width:3"/></g>
-            <circle class="blip" cx="120" cy="40" r="3.5"/>
+            <line class="stroke-ink" x1="92" y1="30" x2="148" y2="50" style="stroke-width:3"/>
+            <line class="stroke-ink" x1="148" y1="30" x2="92" y2="50" style="stroke-width:3"/>
+            <rect class="fill-ink" x="108" y="34" width="24" height="12" rx="5"/>
+            <g class="prop"><line class="stroke-teal" x1="84" y1="30" x2="100" y2="30" style="stroke-width:3"/></g>
+            <g class="prop"><line class="stroke-teal" x1="140" y1="30" x2="156" y2="30" style="stroke-width:3"/></g>
+            <g class="prop"><line class="stroke-teal" x1="84" y1="50" x2="100" y2="50" style="stroke-width:3"/></g>
+            <g class="prop"><line class="stroke-teal" x1="140" y1="50" x2="156" y2="50" style="stroke-width:3"/></g>
+            <circle class="blip" cx="120" cy="40" r="3"/>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 04</span><h3>Custom 3D design</h3><p>You walk a 3D rendering of your backyard. We adjust it to your notes.</p></div>
@@ -223,13 +240,18 @@
       <article class="proc-card reveal d1">
         <div class="proc-scene"><svg class="scene s-plan" viewBox="0 0 240 150" aria-hidden="true">
           <g class="sheet2">
-            <rect class="fill-paper stroke-ink" x="76" y="24" width="88" height="102" rx="9"/>
-            <rect class="fill-ink" x="88" y="36" width="36" height="7" rx="3.5"/>
-            <g class="item i1"><rect class="fill-line" x="88" y="56" width="38" height="5" rx="2.5"/><rect class="fill-teal" x="134" y="56" width="18" height="5" rx="2.5"/></g>
-            <g class="item i2"><rect class="fill-line" x="88" y="70" width="44" height="5" rx="2.5"/><rect class="fill-teal" x="138" y="70" width="14" height="5" rx="2.5"/></g>
-            <g class="item i3"><rect class="fill-line" x="88" y="84" width="32" height="5" rx="2.5"/><rect class="fill-teal" x="140" y="84" width="12" height="5" rx="2.5"/></g>
-            <line class="stroke-line" x1="88" y1="100" x2="152" y2="100"/>
-            <g class="total"><rect class="fill-ink" x="88" y="106" width="26" height="8" rx="4"/><rect class="fill-gold" x="126" y="105" width="26" height="10" rx="5"/></g>
+            <rect class="fill-paper stroke-ink" x="68" y="18" width="86" height="114" rx="9"/>
+            <rect class="fill-ink" x="78" y="28" width="34" height="6" rx="3"/>
+            <g class="item i1"><rect class="fill-line" x="78" y="46" width="38" height="5" rx="2.5"/><rect class="fill-teal" x="124" y="46" width="18" height="5" rx="2.5"/></g>
+            <g class="item i2"><rect class="fill-line" x="78" y="58" width="44" height="5" rx="2.5"/><rect class="fill-teal" x="128" y="58" width="14" height="5" rx="2.5"/></g>
+            <g class="item i3"><rect class="fill-line" x="78" y="70" width="34" height="5" rx="2.5"/><rect class="fill-teal" x="130" y="70" width="12" height="5" rx="2.5"/></g>
+            <g class="item i4"><rect class="fill-line" x="78" y="82" width="40" height="5" rx="2.5"/><rect class="fill-teal" x="126" y="82" width="16" height="5" rx="2.5"/></g>
+            <line class="stroke-line" x1="78" y1="98" x2="144" y2="98"/>
+            <g class="total"><rect class="fill-ink" x="78" y="104" width="26" height="8" rx="4"/><rect class="fill-gold" x="116" y="103" width="28" height="10" rx="5"/></g>
+          </g>
+          <g class="stamp">
+            <circle class="nofill stroke-brand" cx="146" cy="108" r="17" style="stroke-width:2"/>
+            <path class="stampchk" d="M138 108 l5 5 9 -10" pathLength="100"/>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 05</span><h3>Transparent estimate</h3><p>You get a clear, line by line price. You pick what stays and what flexes.</p></div>
@@ -237,19 +259,80 @@
 
       <article class="proc-card reveal d2">
         <div class="proc-scene"><svg class="scene s-build" viewBox="0 0 240 150" aria-hidden="true">
-          <clipPath id="poolc"><rect x="50" y="96" width="140" height="32" rx="9"/></clipPath>
-          <g clip-path="url(#poolc)"><rect class="water" x="50" y="96" width="140" height="32"/></g>
-          <path class="poolline" d="M59 96 h122 a9 9 0 0 1 9 9 v14 a9 9 0 0 1 -9 9 h-122 a9 9 0 0 1 -9 -9 v-14 a9 9 0 0 1 9 -9 z" pathLength="100"/>
+          <circle class="sun fill-gold" cx="208" cy="30" r="11" opacity=".85"/>
+          <clipPath id="poolc"><rect x="48" y="98" width="146" height="32" rx="9"/></clipPath>
+          <g clip-path="url(#poolc)">
+            <rect class="water" x="48" y="98" width="146" height="32"/>
+            <circle class="bub bu1" cx="78" cy="128" r="2.5" fill="#bfe9ef"/>
+            <circle class="bub bu2" cx="120" cy="128" r="2" fill="#bfe9ef"/>
+            <circle class="bub bu3" cx="156" cy="128" r="3" fill="#bfe9ef"/>
+            <path class="shimmer" d="M40 106 q12 -4 24 0 t24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="#bfe9ef" stroke-width="2"/>
+          </g>
+          <path class="poolline" d="M57 98 h128 a9 9 0 0 1 9 9 v14 a9 9 0 0 1 -9 9 h-128 a9 9 0 0 1 -9 -9 v-14 a9 9 0 0 1 9 -9 z" pathLength="100"/>
+          <g class="tiles">
+            <rect class="tile t1 fill-teal" x="58" y="93" width="9" height="6" rx="1"/>
+            <rect class="tile t2 fill-teal" x="80" y="93" width="9" height="6" rx="1"/>
+            <rect class="tile t3 fill-gold" x="102" y="93" width="9" height="6" rx="1"/>
+            <rect class="tile t4 fill-teal" x="124" y="93" width="9" height="6" rx="1"/>
+            <rect class="tile t5 fill-gold" x="146" y="93" width="9" height="6" rx="1"/>
+            <rect class="tile t6 fill-teal" x="168" y="93" width="9" height="6" rx="1"/>
+          </g>
           <g class="crane">
-            <line class="stroke-ink" x1="62" y1="90" x2="62" y2="36" style="stroke-width:3"/>
-            <line class="stroke-ink" x1="60" y1="38" x2="124" y2="38" style="stroke-width:3"/>
-            <line class="cable stroke-gold" x1="118" y1="40" x2="118" y2="64" style="stroke-width:2"/>
-            <rect class="hook fill-teal" x="112" y="64" width="12" height="9" rx="2"/>
+            <line class="stroke-ink" x1="40" y1="94" x2="40" y2="28" style="stroke-width:3"/>
+            <g class="jib">
+              <line class="stroke-ink" x1="38" y1="30" x2="104" y2="30" style="stroke-width:3"/>
+              <line class="stroke-gold" x1="98" y1="32" x2="98" y2="56" style="stroke-width:2"/>
+              <rect class="fill-brand" x="92" y="56" width="12" height="9" rx="2"/>
+            </g>
           </g>
         </svg></div>
         <div class="proc-body"><span class="step-no">Step 06</span><h3>We build and you dive in</h3><p>One team breaks ground and builds it. Then you jump in.</p></div>
       </article>
 
+    </div>
+  </section>
+
+  <!-- ============ AI BACKYARD VISUALIZER ============ -->
+  <section class="visualizer has-bg has-palm palm-tr" id="visualize">
+    <div class="section-head center reveal">
+      <span class="kicker center">See It First</span>
+      <h2>Visualize your backyard with a pool</h2>
+      <p class="section-sub">Upload a photo of your yard and preview it reimagined with a luxury Aquatic Pools design.</p>
+    </div>
+    <div class="viz-grid reveal">
+      <div class="viz-panel viz-upload">
+        <span class="viz-label">1. Your backyard</span>
+        <div class="viz-box">
+          <input type="file" id="vizFile" accept="image/*" hidden />
+          <button type="button" class="viz-drop" id="vizDrop">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+            <span class="viz-droptext">Drop a photo here<br><span>or click to upload</span></span>
+          </button>
+          <div class="viz-preview" id="vizPreview" hidden>
+            <img id="vizPreviewImg" alt="Your backyard" />
+            <button type="button" class="viz-clear" id="vizClear" aria-label="Remove photo">&times;</button>
+          </div>
+        </div>
+      </div>
+      <div class="viz-panel viz-result">
+        <span class="viz-label">2. Your dream pool</span>
+        <div class="viz-box">
+          <div class="viz-placeholder" id="vizPlaceholder">
+            <span class="viz-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M5 16l.8 2.2L8 19l-2.2.8L5 22l-.8-2.2L2 19l2.2-.8z"/></svg></span>
+            <p>Your pool preview appears here</p>
+          </div>
+          <div class="viz-loading" id="vizLoading" hidden>
+            <span class="viz-spinner"></span>
+            <p>Designing your backyard&hellip;</p>
+          </div>
+          <img class="viz-output" id="vizOutput" hidden alt="Your backyard with a luxury pool" />
+          <span class="viz-tag" id="vizTag" hidden>Concept preview</span>
+        </div>
+      </div>
+    </div>
+    <div class="viz-actions reveal">
+      <button class="btn btn-primary" id="vizGenerate" disabled>Generate my dream pool</button>
+      <p class="viz-note">This preview is a concept to spark ideas. Your real design comes from a free on-site consultation.</p>
     </div>
   </section>
 
@@ -376,7 +459,7 @@
 <footer class="footer">
   <div class="footer-top">
     <div class="footer-brand">
-      <span class="nav-script">Aquatic Pools</span>
+      <img class="footer-logo" src="assets/logo/logo.png" alt="Aquatic Pools Luxury Living" />
       <p>Custom pools and outdoor living, built across Arizona.</p>
     </div>
     <div class="footer-cols">
@@ -397,6 +480,6 @@
   <video id="lightboxVideo" controls playsinline></video>
 </div>
 
-<script src="js/main.js?v=8"></script>
+<script src="js/main.js?v=12"></script>
 </body>
 </html>

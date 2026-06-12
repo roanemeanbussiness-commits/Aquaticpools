@@ -84,20 +84,17 @@
   }, { threshold: 0.5 });
   doc.querySelectorAll('[data-count]').forEach(function (el) { cio.observe(el); });
 
-  /* ---------- IMAGE LOADER (gallery + about + process) ---------- */
-  var fallbacks = [
-    'linear-gradient(135deg,#0f8fa3,#122229)', 'linear-gradient(135deg,#0a6b7c,#122229)',
-    'linear-gradient(135deg,#122229,#0f8fa3)', 'linear-gradient(135deg,#0a6b7c,#0f8fa3)',
-    'linear-gradient(135deg,#114b5f,#122229)', 'linear-gradient(135deg,#0f8fa3,#0a6b7c)'
-  ];
-  doc.querySelectorAll('.ph-img,.proj-img,.svc-img,.review-bg').forEach(function (el, i) {
+  /* ---------- IMAGE LOADER (neutral cream skeleton, no blue flash) ---------- */
+  doc.querySelectorAll('.ph-img,.proj-img,.svc-img,.review-bg').forEach(function (el) {
     var name = el.getAttribute('data-img');
     if (!name) return;
-    el.style.background = fallbacks[i % fallbacks.length];
+    var isReviewBg = el.classList.contains('review-bg'); // hover bg: no skeleton/fade (opacity is controlled by :hover)
+    if (!isReviewBg) el.classList.add('img-loading');
     el.style.backgroundSize = 'cover';
     el.style.backgroundPosition = 'center';
     tryLoad(['assets/images/' + name + '.jpg', 'assets/images/' + name + '.png'], function (src) {
       el.style.backgroundImage = 'url("' + src + '")';
+      if (!isReviewBg) { el.classList.remove('img-loading'); el.classList.add('img-loaded'); }
     });
   });
   function tryLoad(sources, ok) {
@@ -156,7 +153,40 @@
     });
   }
 
-  /* ---------- HERO AUTOPLAY KICK ---------- */
+  /* ---------- HERO BOOKING FORM (demo handler) ---------- */
+  var book = doc.getElementById('bookForm');
+  if (book) {
+    book.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var note = doc.getElementById('bookNote');
+      var name = book.querySelector('#bn').value.trim();
+      var phone = book.querySelector('#bp').value.trim();
+      var email = book.querySelector('#be').value.trim();
+      if (!name || !phone || !email) {
+        note.style.color = '#ff8a70';
+        note.textContent = 'Please add your name, phone, and email.';
+        return;
+      }
+      note.style.color = '#86e0c6';
+      note.textContent = 'Thanks, ' + name.split(' ')[0] + '. We will call you within 24 hours.';
+      book.reset();
+      // TODO: wire to real endpoint / email service (Formspree, Netlify, etc.)
+    });
+  }
+
+  /* ---------- HERO VIDEO (deferred: let the photos load first) ----------
+     The 51MB hero film is heavy; loading it immediately starved the small
+     photos of bandwidth and left their placeholders showing. So we hold it
+     until the page has loaded (poster shows meanwhile), then stream + play. */
+  var heroVid = doc.getElementById('heroVideo');
+  function loadHeroVideo() {
+    if (!heroVid || heroVid.getAttribute('src') || reduce) return;
+    heroVid.src = heroVid.getAttribute('data-src');
+    var p = heroVid.play(); if (p && p.catch) p.catch(function () {});
+  }
+  if (doc.readyState === 'complete') setTimeout(loadHeroVideo, 250);
+  else window.addEventListener('load', function () { setTimeout(loadHeroVideo, 250); });
+  // safety: play any other autoplay videos immediately
   doc.querySelectorAll('video[autoplay]').forEach(function (v) {
     if (reduce) { v.removeAttribute('autoplay'); v.pause(); return; }
     var p = v.play(); if (p && p.catch) p.catch(function () {});
@@ -168,6 +198,8 @@
     entries.forEach(function (en) {
       var v = en.target;
       if (en.isIntersecting) {
+        // On phones, keep the Why-card posters instead of loading 4 videos (saves data).
+        if (v.classList.contains('why-vid') && window.innerWidth < 700) return;
         if (!v.src) v.src = v.getAttribute('data-src');
         if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
       } else if (!v.paused) { v.pause(); }
@@ -226,6 +258,70 @@
       if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     });
   }, 2000);
+
+  /* ---------- AI BACKYARD VISUALIZER ----------
+     Front-end is fully wired (upload, drag/drop, preview, loading, result).
+     To make generation REAL, POST the image to an image-to-image AI service
+     from a small backend/serverless proxy (to keep the API key secret) and set
+     vizOutput.src to the returned image URL. See AI_ENDPOINT below. */
+  var AI_ENDPOINT = ''; // e.g. '/api/generate-pool' (serverless fn calling Replicate/Stability/OpenAI/Gemini)
+  var vizDrop = doc.getElementById('vizDrop');
+  if (vizDrop) {
+    var vizFile = doc.getElementById('vizFile');
+    var vizPreview = doc.getElementById('vizPreview');
+    var vizPreviewImg = doc.getElementById('vizPreviewImg');
+    var vizClear = doc.getElementById('vizClear');
+    var vizGen = doc.getElementById('vizGenerate');
+    var vizPlaceholder = doc.getElementById('vizPlaceholder');
+    var vizLoading = doc.getElementById('vizLoading');
+    var vizOutput = doc.getElementById('vizOutput');
+    var vizTag = doc.getElementById('vizTag');
+    var currentFile = null;
+
+    function setFile(file) {
+      if (!file || file.type.indexOf('image/') !== 0) return;
+      currentFile = file;
+      vizPreviewImg.src = URL.createObjectURL(file);
+      vizDrop.hidden = true; vizPreview.hidden = false; vizGen.disabled = false;
+    }
+    function resetResult() {
+      vizOutput.hidden = true; vizTag.hidden = true; vizLoading.hidden = true; vizPlaceholder.hidden = false;
+    }
+    vizDrop.addEventListener('click', function () { vizFile.click(); });
+    vizFile.addEventListener('change', function () { setFile(vizFile.files[0]); });
+    ['dragover', 'dragenter'].forEach(function (ev) {
+      vizDrop.addEventListener(ev, function (e) { e.preventDefault(); vizDrop.classList.add('drag'); });
+    });
+    ['dragleave', 'dragend'].forEach(function (ev) {
+      vizDrop.addEventListener(ev, function () { vizDrop.classList.remove('drag'); });
+    });
+    vizDrop.addEventListener('drop', function (e) {
+      e.preventDefault(); vizDrop.classList.remove('drag');
+      if (e.dataTransfer && e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+    });
+    vizClear.addEventListener('click', function () {
+      currentFile = null; vizFile.value = '';
+      vizPreview.hidden = true; vizDrop.hidden = false; vizGen.disabled = true; resetResult();
+    });
+    vizGen.addEventListener('click', function () {
+      if (!currentFile) return;
+      vizPlaceholder.hidden = true; vizOutput.hidden = true; vizTag.hidden = true; vizLoading.hidden = false;
+      if (AI_ENDPOINT) {
+        var fd = new FormData(); fd.append('image', currentFile);
+        fetch(AI_ENDPOINT, { method: 'POST', body: fd })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { vizLoading.hidden = true; vizOutput.src = data.url; vizOutput.hidden = false; vizTag.hidden = false; })
+          .catch(function () { vizLoading.hidden = true; resetResult(); });
+      } else {
+        // Demo mode: show a sample luxury-pool rendering until a real AI endpoint is connected.
+        setTimeout(function () {
+          vizLoading.hidden = true;
+          vizOutput.src = 'assets/images/project-04.jpg';
+          vizOutput.hidden = false; vizTag.hidden = false;
+        }, 2200);
+      }
+    });
+  }
 
   /* ---------- YEAR ---------- */
   var y = doc.getElementById('year');
