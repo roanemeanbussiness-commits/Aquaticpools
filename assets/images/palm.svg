@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 620" fill="#14252b">
+  <defs>
+    <path id="lf" d="M300,590 C291,430 296,250 300,120 C305,250 309,430 300,590 Z"/>
+  </defs>
+  <g>
+    <use href="#lf" transform="rotate(-80 300 590)"/>
+    <use href="#lf" transform="rotate(-66 300 590)"/>
+    <use href="#lf" transform="rotate(-52 300 590)"/>
+    <use href="#lf" transform="rotate(-39 300 590)"/>
+    <use href="#lf" transform="rotate(-26 300 590)"/>
+    <use href="#lf" transform="rotate(-13 300 590)"/>
+    <use href="#lf"/>
+    <use href="#lf" transform="rotate(13 300 590)"/>
+    <use href="#lf" transform="rotate(26 300 590)"/>
+    <use href="#lf" transform="rotate(39 300 590)"/>
+    <use href="#lf" transform="rotate(52 300 590)"/>
+    <use href="#lf" transform="rotate(66 300 590)"/>
+    <use href="#lf" transform="rotate(80 300 590)"/>
+  </g>
+</svg>
