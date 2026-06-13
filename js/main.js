@@ -264,7 +264,7 @@
      To make generation REAL, POST the image to an image-to-image AI service
      from a small backend/serverless proxy (to keep the API key secret) and set
      vizOutput.src to the returned image URL. See AI_ENDPOINT below. */
-  var AI_ENDPOINT = ''; // e.g. '/api/generate-pool' (serverless fn calling Replicate/Stability/OpenAI/Gemini)
+  var AI_ENDPOINT = '/api/generate-pool'; // served by serve.py -> Gemini 3 Pro Image (key stays server-side)
   var vizDrop = doc.getElementById('vizDrop');
   if (vizDrop) {
     var vizFile = doc.getElementById('vizFile');
@@ -276,7 +276,14 @@
     var vizLoading = doc.getElementById('vizLoading');
     var vizOutput = doc.getElementById('vizOutput');
     var vizTag = doc.getElementById('vizTag');
+    var vizOutputClear = doc.getElementById('vizOutputClear');
+    var vizRefAdd = doc.getElementById('vizRefAdd');
+    var vizRefFile = doc.getElementById('vizRefFile');
+    var vizRefPreview = doc.getElementById('vizRefPreview');
+    var vizRefImg = doc.getElementById('vizRefImg');
+    var vizRefClear = doc.getElementById('vizRefClear');
     var currentFile = null;
+    var refDataURL = null;
 
     function setFile(file) {
       if (!file || file.type.indexOf('image/') !== 0) return;
@@ -284,8 +291,35 @@
       vizPreviewImg.src = URL.createObjectURL(file);
       vizDrop.hidden = true; vizPreview.hidden = false; vizGen.disabled = false;
     }
+    var vizPlaceholderText = vizPlaceholder.querySelector('p');
+    var vizPlaceholderDefault = vizPlaceholderText ? vizPlaceholderText.textContent : '';
     function resetResult() {
       vizOutput.hidden = true; vizTag.hidden = true; vizLoading.hidden = true; vizPlaceholder.hidden = false;
+      if (vizOutputClear) vizOutputClear.hidden = true;
+      vizPlaceholder.classList.remove('viz-err');
+      if (vizPlaceholderText) vizPlaceholderText.textContent = vizPlaceholderDefault;
+    }
+    function vizError(msg) {
+      vizLoading.hidden = true; vizOutput.hidden = true; vizTag.hidden = true;
+      if (vizOutputClear) vizOutputClear.hidden = true;
+      vizPlaceholder.hidden = false; vizPlaceholder.classList.add('viz-err');
+      if (vizPlaceholderText) vizPlaceholderText.textContent = msg;
+      vizGen.disabled = false;
+    }
+    // Downscale the upload before sending (faster + smaller request, better for the API).
+    function fileToScaledDataURL(file, maxDim, cb) {
+      var img = new Image();
+      img.onload = function () {
+        var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        var cw = Math.round(img.width * scale), ch = Math.round(img.height * scale);
+        var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+        c.getContext('2d').drawImage(img, 0, 0, cw, ch);
+        try { cb(c.toDataURL('image/jpeg', 0.9)); }
+        catch (e) { cb(null); }
+        URL.revokeObjectURL(img.src);
+      };
+      img.onerror = function () { cb(null); };
+      img.src = URL.createObjectURL(file);
     }
     vizDrop.addEventListener('click', function () { vizFile.click(); });
     vizFile.addEventListener('change', function () { setFile(vizFile.files[0]); });
@@ -303,21 +337,58 @@
       currentFile = null; vizFile.value = '';
       vizPreview.hidden = true; vizDrop.hidden = false; vizGen.disabled = true; resetResult();
     });
+    // Optional reference / inspiration image (sent alongside the backyard photo).
+    if (vizRefAdd) {
+      vizRefAdd.addEventListener('click', function () { vizRefFile.click(); });
+      vizRefFile.addEventListener('change', function () {
+        var f = vizRefFile.files[0];
+        if (!f || f.type.indexOf('image/') !== 0) return;
+        vizRefImg.src = URL.createObjectURL(f);
+        fileToScaledDataURL(f, 768, function (d) { refDataURL = d; });
+        vizRefAdd.hidden = true; vizRefPreview.hidden = false;
+      });
+      vizRefClear.addEventListener('click', function () {
+        refDataURL = null; vizRefFile.value = '';
+        vizRefPreview.hidden = true; vizRefAdd.hidden = false;
+      });
+    }
+    // Delete (X) the generated render.
+    if (vizOutputClear) {
+      vizOutputClear.addEventListener('click', function () { vizOutput.removeAttribute('src'); resetResult(); });
+    }
     vizGen.addEventListener('click', function () {
       if (!currentFile) return;
+      vizPlaceholder.classList.remove('viz-err');
       vizPlaceholder.hidden = true; vizOutput.hidden = true; vizTag.hidden = true; vizLoading.hidden = false;
+      if (vizOutputClear) vizOutputClear.hidden = true;
+      vizGen.disabled = true;
       if (AI_ENDPOINT) {
-        var fd = new FormData(); fd.append('image', currentFile);
-        fetch(AI_ENDPOINT, { method: 'POST', body: fd })
-          .then(function (r) { return r.json(); })
-          .then(function (data) { vizLoading.hidden = true; vizOutput.src = data.url; vizOutput.hidden = false; vizTag.hidden = false; })
-          .catch(function () { vizLoading.hidden = true; resetResult(); });
+        fileToScaledDataURL(currentFile, 1024, function (dataUrl) {
+          if (!dataUrl) { vizError('Could not read that image. Try another photo.'); return; }
+          fetch(AI_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: dataUrl, mime: 'image/jpeg', reference: refDataURL || '', refMime: 'image/jpeg' })
+          })
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+            .then(function (res) {
+              if (res.ok && res.j && res.j.image) {
+                vizLoading.hidden = true;
+                vizOutput.src = res.j.image; vizOutput.hidden = false; vizTag.hidden = false;
+                if (vizOutputClear) vizOutputClear.hidden = false;
+                vizGen.disabled = false;
+              } else {
+                vizError((res.j && res.j.error) ? res.j.error : 'Generation failed. Please try again.');
+              }
+            })
+            .catch(function () { vizError('Network error. Please try again.'); });
+        });
       } else {
         // Demo mode: show a sample luxury-pool rendering until a real AI endpoint is connected.
         setTimeout(function () {
           vizLoading.hidden = true;
           vizOutput.src = 'assets/images/project-04.jpg';
-          vizOutput.hidden = false; vizTag.hidden = false;
+          vizOutput.hidden = false; vizTag.hidden = false; vizGen.disabled = false;
         }, 2200);
       }
     });

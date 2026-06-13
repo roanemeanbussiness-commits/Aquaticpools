@@ -2,6 +2,8 @@ _rec/
 _reference/
 assets/videos/AquaticPoolAZ.mp4
 assets/Screenshot*.png
+assets/onsitevideos/
+_osprobe/
 .DS_Store
 *.log
 node_modules/
