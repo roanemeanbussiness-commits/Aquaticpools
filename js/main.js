@@ -207,13 +207,17 @@
     heroVid.addEventListener('loadeddata', playHero, { once: true });
     playHero();
   }
-  if (doc.readyState === 'complete') setTimeout(loadHeroVideo, 250);
-  else window.addEventListener('load', function () { setTimeout(loadHeroVideo, 250); });
-  // safety: play any other autoplay videos immediately
-  doc.querySelectorAll('video[autoplay]').forEach(function (v) {
-    if (reduce) { v.removeAttribute('autoplay'); v.pause(); return; }
-    var p = v.play(); if (p && p.catch) p.catch(function () {});
-  });
+  // Mobile: start the lighter clip immediately so native muted autoplay fires (no tap needed).
+  // Desktop: defer so the 51MB file doesn't slow the first paint (poster shows meanwhile).
+  if (reduce) {
+    if (heroVid) heroVid.removeAttribute('autoplay');
+  } else if (heroVid && window.matchMedia('(max-width: 768px)').matches) {
+    loadHeroVideo();
+  } else if (doc.readyState === 'complete') {
+    setTimeout(loadHeroVideo, 250);
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadHeroVideo, 250); });
+  }
 
   /* ---------- LAZY VIDEOS ---------- */
   var vio = new IntersectionObserver(function (entries) {
