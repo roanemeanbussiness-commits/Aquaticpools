@@ -181,7 +181,10 @@
   var heroVid = doc.getElementById('heroVideo');
   function loadHeroVideo() {
     if (!heroVid || heroVid.getAttribute('src') || reduce) return;
-    heroVid.src = heroVid.getAttribute('data-src');
+    // On phones, load the lighter 360p cut to save data and start faster.
+    var mobileSrc = heroVid.getAttribute('data-src-mobile');
+    var small = window.matchMedia('(max-width: 768px)').matches;
+    heroVid.src = (small && mobileSrc) ? mobileSrc : heroVid.getAttribute('data-src');
     var p = heroVid.play(); if (p && p.catch) p.catch(function () {});
   }
   if (doc.readyState === 'complete') setTimeout(loadHeroVideo, 250);
