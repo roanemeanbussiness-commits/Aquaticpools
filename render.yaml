@@ -1,0 +1,12 @@
+# Render blueprint — deploys the site + AI visualizer backend (serve.py).
+# In Render: New + > Blueprint > connect this repo, then set GEMINI_API_KEY.
+services:
+  - type: web
+    name: aquatic-pools
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python serve.py
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false   # set this in the Render dashboard (kept secret)

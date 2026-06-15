@@ -15,7 +15,7 @@ import json
 import urllib.request
 import urllib.error
 
-PORT = 5182
+PORT = int(os.environ.get("PORT", 5182))  # hosts like Render inject $PORT
 ROOT = os.path.dirname(os.path.abspath(__file__))
 os.chdir(ROOT)
 
@@ -46,7 +46,8 @@ def load_env():
     return env
 
 
-GEMINI_KEY = load_env().get("GEMINI_API_KEY", "")
+# Local dev reads .env; hosted (Render etc.) reads the real environment variable.
+GEMINI_KEY = load_env().get("GEMINI_API_KEY", "") or os.environ.get("GEMINI_API_KEY", "")
 
 
 def split_data_url(s, default_mime):
