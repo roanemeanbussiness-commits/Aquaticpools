@@ -179,13 +179,33 @@
      photos of bandwidth and left their placeholders showing. So we hold it
      until the page has loaded (poster shows meanwhile), then stream + play. */
   var heroVid = doc.getElementById('heroVideo');
+  function playHero() {
+    if (!heroVid) return;
+    heroVid.muted = true;            // iOS needs the *property* set, not just the attribute
+    var p = heroVid.play();
+    if (p && p.catch) p.catch(function () {
+      // Autoplay blocked (e.g. iOS Low Power Mode): start it on the first user gesture.
+      var resume = function () {
+        heroVid.muted = true; var r = heroVid.play(); if (r && r.catch) r.catch(function () {});
+        doc.removeEventListener('touchstart', resume); doc.removeEventListener('click', resume);
+      };
+      doc.addEventListener('touchstart', resume, { once: true, passive: true });
+      doc.addEventListener('click', resume, { once: true });
+    });
+  }
   function loadHeroVideo() {
     if (!heroVid || heroVid.getAttribute('src') || reduce) return;
     // On phones, load the lighter 360p cut to save data and start faster.
     var mobileSrc = heroVid.getAttribute('data-src-mobile');
     var small = window.matchMedia('(max-width: 768px)').matches;
+    heroVid.muted = true;
+    heroVid.autoplay = true;         // mark it as muted-autoplay eligible on mobile
     heroVid.src = (small && mobileSrc) ? mobileSrc : heroVid.getAttribute('data-src');
-    var p = heroVid.play(); if (p && p.catch) p.catch(function () {});
+    heroVid.load();
+    // preload="none" means there's no data yet — play once it's buffered, and also try now.
+    heroVid.addEventListener('canplay', playHero, { once: true });
+    heroVid.addEventListener('loadeddata', playHero, { once: true });
+    playHero();
   }
   if (doc.readyState === 'complete') setTimeout(loadHeroVideo, 250);
   else window.addEventListener('load', function () { setTimeout(loadHeroVideo, 250); });
