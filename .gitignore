@@ -3,6 +3,9 @@ _reference/
 assets/videos/AquaticPoolAZ.mp4
 assets/Screenshot*.png
 assets/onsitevideos/
+assets/*.mp4
+assets/*.jpeg
+assets/logo/image.png
 _osprobe/
 .DS_Store
 *.log
