@@ -240,6 +240,9 @@
      polluted by the transforms we apply — no feedback jitter. */
   var progress = doc.getElementById('scrollProgress');
   var hero = doc.getElementById('heroVideo');
+  // On phones the hero uses object-fit:contain so the trailer's full-width logo isn't cropped;
+  // skip the 1.14 parallax zoom there (it would re-crop the logo).
+  var heroZoom = window.matchMedia('(max-width: 768px)').matches ? 1 : 1.14;
   var panels = Array.prototype.slice.call(doc.querySelectorAll('main > section:not(.hero), .footer'));
   var ticking = false;
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -257,7 +260,7 @@
       progress.style.transform = 'scaleX(' + (max > 0 ? clamp(sy / max) : 0) + ')';
     }
     if (!reduce) {
-      if (hero) hero.style.transform = 'translateY(' + (sy * 0.12) + 'px) scale(1.14)';
+      if (hero) hero.style.transform = 'translateY(' + (sy * 0.12) + 'px) scale(' + heroZoom + ')';
       panels.forEach(function (p) {
         var top = (p._top || 0) - sy;                       // untransformed viewport top
         var rise = (1 - clamp((vh - top) / (vh * 0.85))) * 72;  // up from the bottom
