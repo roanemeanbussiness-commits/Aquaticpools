@@ -18,6 +18,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Great+Vibes&family=Sacramento&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css?v=24" />
+<!-- lauren:navstyle --><style>
+.lauren-has-sub{position:relative}
+.lauren-has-sub>.lauren-submenu{position:absolute;left:0;top:100%;min-width:220px;display:none;list-style:none;margin:0;padding:8px 0;background:#0d0d0d;border:1px solid rgba(255,255,255,0.12);border-radius:10px;box-shadow:0 16px 40px rgba(0,0,0,0.4);z-index:2000}
+.lauren-has-sub:hover>.lauren-submenu,.lauren-has-sub:focus-within>.lauren-submenu{display:block}
+.lauren-submenu li{margin:0;padding:0}
+.lauren-submenu a{display:block;padding:9px 18px;white-space:nowrap;color:#eaeaea;text-decoration:none;font-size:14px}
+.lauren-submenu a:hover{background:rgba(255,140,0,0.16);color:#FF8C00}
+</style>
 </head>
 <body>
 
@@ -42,9 +50,9 @@
   <a href="#top" class="nav-brand" aria-label="Aquatic Pools Arizona home"><img class="nav-logo" src="assets/logo/logo.png" alt="Aquatic Pools Luxury Living" /></a>
   <nav class="nav-links" id="navLinks">
     <a href="#about">About</a>
-<a href="/locations/chandler.html">Service Areas</a>
-<a href="/locations/scottsdale.html">Service Areas</a>
-<a href="/blog/write-blog-post-how-much-does-a-pool-cost-in-phoenix">Blog</a>
+
+
+<span class="lauren-has-sub" style="position:relative;display:inline-block"><a href="/blog/write-blog-post-how-much-does-a-pool-cost-in-phoenix">Blog</a><ul class="lauren-submenu" data-lauren-section="blog"><li><a href="/blog/write-blog-post-how-much-does-a-pool-cost-in-phoenix.html">Write blog post: How Much Does a Pool…</a></li><li class="lauren-has-sub"><a href="/locations/scottsdale.html">Service Areas</a><ul class="lauren-submenu" data-lauren-section="service-areas"><li><a href="/locations/scottsdale.html">Scottsdale</a></li><li><a href="/locations/chandler.html">Chandler</a></li><li><a href="/locations/paradise-valley.html">Paradise Valley</a></li></ul></li></ul></span>
     <a href="#services">Services</a>
     <a href="#work">Portfolio</a>
     <a href="#onsite">Us at Work</a>
