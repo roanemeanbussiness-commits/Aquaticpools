@@ -725,6 +725,40 @@ section{position:relative}
 .page-contact .nav-links a.active{color:var(--teal-deep);font-weight:600}
 .page-contact .nav-links a.active::after{width:100%}
 
+/* ---------- two-column contact: pool image + form (modern silk) ---------- */
+.contact-split{display:grid;grid-template-columns:1.02fr 1fr;align-items:stretch;background:var(--cream)}
+.cs-media{position:relative;overflow:hidden;min-height:100svh}
+.cs-media.reveal{opacity:0;transform:none;transition:opacity 1.3s var(--ease)}
+.cs-media.reveal.in{opacity:1}
+.cs-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.07);transition:transform 2.6s var(--ease)}
+.cs-media.in .cs-img{transform:scale(1)}
+.cs-media-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,20,.20),transparent 26%,transparent 70%,rgba(8,16,20,.34))}
+.cs-panel{display:flex;align-items:center;background:var(--cream);padding:calc(74px + clamp(1.5rem,4vh,3rem)) clamp(1.5rem,4vw,4.5rem) clamp(3rem,7vh,5rem)}
+.cs-panel-inner{width:100%;max-width:560px;margin:0 auto}
+.cs-call{display:inline-flex;align-items:center;gap:.7rem;padding:.5rem 1rem .5rem .5rem;border:1px solid var(--hair);border-radius:100px;background:#fff;margin-bottom:1.9rem;transition:.4s var(--ease);box-shadow:0 8px 22px -16px rgba(18,34,41,.6)}
+.cs-call:hover{transform:translateY(-2px);border-color:rgba(199,154,75,.5);box-shadow:0 16px 32px -18px rgba(18,34,41,.5)}
+.cs-call-icon{flex:none;width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center}
+.cs-call-icon svg{width:16px;height:16px;fill:currentColor}
+.cs-call-copy{display:flex;flex-direction:column;line-height:1.15;padding-right:.3rem}
+.cs-call-label{font-family:var(--f-display);font-weight:500;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cs-call-num{font-family:var(--f-display);font-weight:700;font-size:1.05rem;color:var(--ink)}
+.cs-title{font-size:clamp(1.85rem,2.9vw,2.7rem);line-height:1.14;font-weight:600;margin:.3rem 0 1.1rem}
+.cs-title::after{content:'';display:block;width:64px;height:3px;margin-top:1.2rem;border-radius:3px;background:linear-gradient(90deg,var(--brand),var(--gold))}
+.cs-lead{color:var(--ink-soft);font-size:.98rem;line-height:1.75;margin-bottom:2rem}
+.cs-form{display:grid;gap:1rem}
+.cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cs-form .btn-block{margin-top:.6rem}
+@media (max-width:960px){
+  .contact-split{grid-template-columns:1fr}
+  .cs-media{min-height:0;height:40vh;position:relative}
+  .cs-panel{padding-top:clamp(2rem,6vh,3.5rem)}
+}
+@media (max-width:560px){
+  .cs-grid{grid-template-columns:1fr}
+  .cs-media{height:32vh}
+  .cs-panel{padding-left:1.25rem;padding-right:1.25rem}
+}
+
 /* ---------- hero (shorter cinematic band, reuses .hero-media/.hero-video/.hero-scrim) ---------- */
 .chero{position:relative;overflow:hidden;min-height:64vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:clamp(7rem,15vh,9.5rem) var(--pad) clamp(3.5rem,8vh,5rem);background:var(--ink)}
 .chero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}

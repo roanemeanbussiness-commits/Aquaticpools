@@ -85,7 +85,7 @@
   doc.querySelectorAll('[data-count]').forEach(function (el) { cio.observe(el); });
 
   /* ---------- IMAGE LOADER (neutral cream skeleton, no blue flash) ---------- */
-  doc.querySelectorAll('.ph-img,.proj-img,.svc-img,.review-bg').forEach(function (el) {
+  doc.querySelectorAll('.ph-img,.proj-img,.svc-img,.review-bg,.cs-img').forEach(function (el) {
     var name = el.getAttribute('data-img');
     if (!name) return;
     var isReviewBg = el.classList.contains('review-bg'); // hover bg: no skeleton/fade (opacity is controlled by :hover)
@@ -151,7 +151,9 @@
     function val(n) { var el = f.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; }
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = val('name'), phone = val('phone'), email = val('email');
+      // Forms use either a single "name" field or first/last name.
+      var name = val('name') || (val('firstName') + ' ' + val('lastName')).trim();
+      var phone = val('phone'), email = val('email');
       if (!name || !phone || !email) {
         note.style.color = errColor;
         note.textContent = 'Please add your name, phone, and email so we can reach you.';
