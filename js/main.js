@@ -153,6 +153,45 @@
     });
   }
 
+  /* ---------- CONTACT PAGE FORM (demo handler) ---------- */
+  var cform = doc.getElementById('contactForm');
+  if (cform) {
+    cform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var note = doc.getElementById('contactFormNote');
+      var name = cform.querySelector('#ctn').value.trim();
+      var phone = cform.querySelector('#ctp').value.trim();
+      var email = cform.querySelector('#cte').value.trim();
+      if (!name || !phone || !email) {
+        note.style.color = 'var(--brand)';
+        note.textContent = 'Please add your name, phone, and email so we can reach you.';
+        return;
+      }
+      note.style.color = 'var(--teal-deep)';
+      note.textContent = 'Thanks, ' + name.split(' ')[0] + '! We’ll be in touch shortly.';
+      cform.reset();
+      // TODO: wire to real endpoint / email service (Formspree, Netlify, etc.)
+    });
+  }
+
+  /* ---------- FAQ ACCORDION ---------- */
+  doc.querySelectorAll('.faq-item').forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      doc.querySelectorAll('.faq-item.open').forEach(function (other) {
+        if (other !== item) {
+          other.classList.remove('open');
+          var otherBtn = other.querySelector('.faq-q');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
   /* ---------- HERO BOOKING FORM (demo handler) ---------- */
   var book = doc.getElementById('bookForm');
   if (book) {
