@@ -132,47 +132,74 @@
   if (lb) lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
   doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && lb && lb.classList.contains('open')) closeLightbox(); });
 
-  /* ---------- QUOTE FORM (demo handler) ---------- */
-  var form = doc.getElementById('quoteForm');
-  if (form) {
-    form.addEventListener('submit', function (e) {
+  /* ---------- FORMS -> EMAIL (Web3Forms) ----------
+     Every form on the site (contact + homepage quote + any hero booking form)
+     submits here and emails info@aquaticpoolaz.com.
+
+     ACTIVATION: get a free access key at https://web3forms.com — enter
+     info@aquaticpoolaz.com, and they email you a key. Paste it below.
+     The key is SAFE to sit in this client-side file: it only lets visitors
+     send email TO you, and Web3Forms filters spam. */
+  var FORM_ACCESS_KEY = 'REPLACE_WITH_WEB3FORMS_ACCESS_KEY';
+  var FORM_CONFIGURED = FORM_ACCESS_KEY.indexOf('REPLACE_WITH') !== 0;
+
+  function wireEmailForm(f, opts) {
+    if (!f) return;
+    var note = doc.getElementById(opts.noteId);
+    var okColor = opts.okColor || 'var(--teal-deep)';
+    var errColor = opts.errColor || 'var(--brand)';
+    function val(n) { var el = f.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; }
+    f.addEventListener('submit', function (e) {
       e.preventDefault();
-      var note = doc.getElementById('formNote');
-      var name = form.querySelector('#qn').value.trim();
-      var phone = form.querySelector('#qp').value.trim();
-      var email = form.querySelector('#qe').value.trim();
+      var name = val('name'), phone = val('phone'), email = val('email');
       if (!name || !phone || !email) {
-        note.style.color = 'var(--brand)';
+        note.style.color = errColor;
         note.textContent = 'Please add your name, phone, and email so we can reach you.';
         return;
       }
-      note.style.color = 'var(--teal-deep)';
-      note.textContent = 'Thanks, ' + name.split(' ')[0] + '! We’ll be in touch shortly to schedule your consult.';
-      form.reset();
-      // TODO: wire to real endpoint / email service (Formspree, Netlify, etc.)
+      var thanks = 'Thanks, ' + name.split(' ')[0] + '! ' + opts.success;
+      // Until a key is added, keep the friendly confirmation so the page isn't broken.
+      if (!FORM_CONFIGURED) {
+        note.style.color = okColor; note.textContent = thanks; f.reset();
+        return;
+      }
+      var payload = { access_key: FORM_ACCESS_KEY, subject: opts.subject, from_name: 'Aquatic Pools Website' };
+      new FormData(f).forEach(function (v, k) { payload[k] = v; });
+      var btn = f.querySelector('button[type="submit"]');
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      note.style.color = okColor; note.textContent = 'Sending…';
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (btn) { btn.disabled = false; btn.textContent = label; }
+          if (res && res.success) {
+            note.style.color = okColor; note.textContent = thanks; f.reset();
+          } else {
+            note.style.color = errColor;
+            note.textContent = 'Something went wrong — please call us at (623) 225-0537.';
+          }
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = label; }
+          note.style.color = errColor;
+          note.textContent = 'Network error — please call us at (623) 225-0537.';
+        });
     });
   }
 
-  /* ---------- CONTACT PAGE FORM (demo handler) ---------- */
-  var cform = doc.getElementById('contactForm');
-  if (cform) {
-    cform.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var note = doc.getElementById('contactFormNote');
-      var name = cform.querySelector('#ctn').value.trim();
-      var phone = cform.querySelector('#ctp').value.trim();
-      var email = cform.querySelector('#cte').value.trim();
-      if (!name || !phone || !email) {
-        note.style.color = 'var(--brand)';
-        note.textContent = 'Please add your name, phone, and email so we can reach you.';
-        return;
-      }
-      note.style.color = 'var(--teal-deep)';
-      note.textContent = 'Thanks, ' + name.split(' ')[0] + '! We’ll be in touch shortly.';
-      cform.reset();
-      // TODO: wire to real endpoint / email service (Formspree, Netlify, etc.)
-    });
-  }
+  wireEmailForm(doc.getElementById('quoteForm'), {
+    noteId: 'formNote', subject: 'New quote request — Aquatic Pools website',
+    success: 'We’ll be in touch shortly to schedule your consult.'
+  });
+  wireEmailForm(doc.getElementById('contactForm'), {
+    noteId: 'contactFormNote', subject: 'New contact message — Aquatic Pools website',
+    success: 'We’ll be in touch shortly.'
+  });
 
   /* ---------- FAQ ACCORDION ---------- */
   doc.querySelectorAll('.faq-item').forEach(function (item) {
@@ -192,26 +219,11 @@
     });
   });
 
-  /* ---------- HERO BOOKING FORM (demo handler) ---------- */
-  var book = doc.getElementById('bookForm');
-  if (book) {
-    book.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var note = doc.getElementById('bookNote');
-      var name = book.querySelector('#bn').value.trim();
-      var phone = book.querySelector('#bp').value.trim();
-      var email = book.querySelector('#be').value.trim();
-      if (!name || !phone || !email) {
-        note.style.color = '#ff8a70';
-        note.textContent = 'Please add your name, phone, and email.';
-        return;
-      }
-      note.style.color = '#86e0c6';
-      note.textContent = 'Thanks, ' + name.split(' ')[0] + '. We will call you within 24 hours.';
-      book.reset();
-      // TODO: wire to real endpoint / email service (Formspree, Netlify, etc.)
-    });
-  }
+  /* ---------- HERO BOOKING FORM (if present) ---------- */
+  wireEmailForm(doc.getElementById('bookForm'), {
+    noteId: 'bookNote', subject: 'New booking request — Aquatic Pools website',
+    success: 'We will call you within 24 hours.', okColor: '#86e0c6', errColor: '#ff8a70'
+  });
 
   /* ---------- HERO VIDEO (deferred: let the photos load first) ----------
      The 51MB hero film is heavy; loading it immediately starved the small
