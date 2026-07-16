@@ -731,7 +731,8 @@ section{position:relative}
 .cs-media.reveal{opacity:0;transform:none;transition:opacity 1.3s var(--ease)}
 .cs-media.reveal.in{opacity:1}
 .cs-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.07);transition:transform 2.6s var(--ease)}
-.cs-media.in .cs-img{transform:scale(1)}
+.cs-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0a141a;transform:scale(1.07);transition:transform 2.6s var(--ease)}
+.cs-media.in .cs-img,.cs-media.in .cs-video{transform:scale(1)}
 .cs-media-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,20,.20),transparent 26%,transparent 70%,rgba(8,16,20,.34))}
 .cs-panel{display:flex;align-items:center;background:var(--cream);padding:calc(74px + clamp(1.5rem,4vh,3rem)) clamp(1.5rem,4vw,4.5rem) clamp(3rem,7vh,5rem)}
 .cs-panel-inner{width:100%;max-width:560px;margin:0 auto}
