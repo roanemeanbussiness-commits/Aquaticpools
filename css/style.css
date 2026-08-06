@@ -686,6 +686,16 @@ section{position:relative}
 .fin-hero h1{font-size:clamp(2rem,4.5vw,3.1rem);margin-bottom:1rem}
 .fin-hero .section-sub{margin-left:auto;margin-right:auto}
 
+.legal{max-width:780px;margin:0 auto;padding:0 var(--pad) clamp(5rem,10vh,7rem);font-family:var(--f-body);color:var(--ink)}
+.legal .legal-updated{font-size:.85rem;color:var(--muted);margin-bottom:2rem}
+.legal h2{font-family:var(--f-display);font-size:clamp(1.2rem,2.4vw,1.5rem);margin:2.4rem 0 .8rem}
+.legal h2:first-child{margin-top:0}
+.legal p,.legal li{font-size:1rem;line-height:1.7;color:var(--ink)}
+.legal p{margin-bottom:1rem}
+.legal ul{margin:0 0 1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem}
+.legal a{color:var(--teal-deep);text-decoration:underline}
+.legal strong{color:var(--ink)}
+
 .fin-partners{padding:0 var(--pad) clamp(5rem,10vh,7rem)}
 .fin-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(1.2rem,3vw,2rem);align-items:stretch}
 
