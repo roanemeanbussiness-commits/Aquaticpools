@@ -183,13 +183,13 @@
             note.style.color = okColor; note.textContent = thanks; f.reset();
           } else {
             note.style.color = errColor;
-            note.textContent = 'Something went wrong — please call us at (602) 784-3600.';
+            note.textContent = 'Something went wrong — please call us at (623) 225-0537.';
           }
         })
         .catch(function () {
           if (btn) { btn.disabled = false; btn.textContent = label; }
           note.style.color = errColor;
-          note.textContent = 'Network error — please call us at (602) 784-3600.';
+          note.textContent = 'Network error — please call us at (623) 225-0537.';
         });
     });
   }
