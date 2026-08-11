@@ -686,7 +686,8 @@ section{position:relative}
 .fin-hero h1{font-size:clamp(2rem,4.5vw,3.1rem);margin-bottom:1rem}
 .fin-hero .section-sub{margin-left:auto;margin-right:auto}
 
-.legal{max-width:780px;margin:0 auto;padding:0 var(--pad) clamp(5rem,10vh,7rem);font-family:var(--f-body);color:var(--ink)}
+.legal{padding:clamp(2.5rem,6vh,4.5rem) var(--pad) clamp(5rem,11vh,8rem);font-family:var(--f-body);color:var(--ink)}
+.legal-inner{max-width:780px;margin:0 auto}
 .legal .legal-updated{font-size:.85rem;color:var(--muted);margin-bottom:2rem}
 .legal h2{font-family:var(--f-display);font-size:clamp(1.2rem,2.4vw,1.5rem);margin:2.4rem 0 .8rem}
 .legal h2:first-child{margin-top:0}
